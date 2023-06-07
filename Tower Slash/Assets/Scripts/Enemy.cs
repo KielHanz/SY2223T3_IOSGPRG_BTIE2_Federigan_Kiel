@@ -5,59 +5,98 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    public float deathDirection;
+    [HideInInspector]public float deathDirection;
 
-    [HideInInspector]
-    public float enemyHp;
+    [HideInInspector] public float enemyHp;
+    
 
+    [SerializeField] private List<GameObject> arrows;
 
-    [SerializeField]
-    List<GameObject> arrows;
+    private SpriteRenderer render;
 
-    SpriteRenderer render;
-    // Start is called before the first frame update
+    [SerializeField] private float speed;
+
+    public bool isDead;
+
+    [HideInInspector] public GameObject arrow;
+    [HideInInspector] public GameObject secondArrow;
+
+    private Dash dash;
     void Start()
     {
-
-  
-
+        deathDirection = Random.Range(1, 4);
         int randomIdx = Random.Range(0, arrows.Count);
 
         Quaternion arrowRotation = transform.rotation;
         switch (deathDirection)
         {
             case 1:
-                arrowRotation = Quaternion.Euler(0, 0, -90);
+                arrowRotation = Quaternion.Euler(0, 0, -90); //down
                 break;
             case 2:
-                arrowRotation = Quaternion.Euler(0, 0, 90);
+                arrowRotation = Quaternion.Euler(0, 0, 90); // up
                 break;
             case 3:
-                arrowRotation = Quaternion.Euler(0, 0, 0);
+                arrowRotation = Quaternion.Euler(0, 0, 0); // right
                 break;
             case 4:
-                arrowRotation = Quaternion.Euler(0,0,180);
+                arrowRotation = Quaternion.Euler(0,0,180); // left
                 break;
         }
+        if (arrows[randomIdx] == arrows[2])
+        {
+            secondArrow = Instantiate(arrows[Random.Range(0,2)], transform.position + new Vector3(-1, -1, 0), arrowRotation);
+            secondArrow.transform.SetParent(transform, true);
+            secondArrow.SetActive(false);
+        }
+
         if (arrows[randomIdx] == arrows[1])
         {
             render = arrows[1].GetComponent<SpriteRenderer>();
             render.flipX = true;
         }
 
-
-            GameObject arrow = Instantiate(arrows[randomIdx], transform.position + new Vector3(-1, -1, 0), arrowRotation);
+            arrow = Instantiate(arrows[randomIdx], transform.position + new Vector3(-1, -1, 0), arrowRotation);
             arrow.transform.SetParent(transform, true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.Translate(Vector2.down * speed * Time.deltaTime);
 
-
+        if (dash != null)
+        {
+            if (dash.isDash)
+            {
+                speed = 10;
+            }
+            else
+            {
+                speed = 5;
+            }
+        }
         if (enemyHp <= 0)
         {
+            isDead = true;
+
             Destroy(this.gameObject);
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        dash = other.collider.GetComponent<Dash>();
+        if (dash != null)
+        {
+           Destroy(gameObject);
+        }
+
+        Player player = other.collider.GetComponent<Player>();
+        if (player != null && !dash.isDash)
+        {
+            player.playerLives--;
+        }
+       
     }
 }

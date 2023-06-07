@@ -6,20 +6,14 @@ using UnityEngine;
 public class Slash : MonoBehaviour
 {
 
-
     public float slashDirection;
 
-    Vector3 firstPos;
-    Vector3 lastPos;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Vector3 firstPos;
+    private Vector3 lastPos;
 
-    // Update is called once per frame
     void Update()
     {
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -28,17 +22,14 @@ public class Slash : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 firstPos = touchPosition;
-                //Debug.Log("First position" + firstPos);
             }
             else if (touch.phase == TouchPhase.Ended)
             {
                 lastPos = touchPosition;
 
-
                 Vector2 distance = lastPos - firstPos;
                 float distanceX = Mathf.Abs(distance.x);
                 float distanceY = Mathf.Abs(distance.y);
-
 
                 if (firstPos.y > lastPos.y && distanceY > distanceX)
                 {
