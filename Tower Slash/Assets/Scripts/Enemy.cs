@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
-    [HideInInspector]public float deathDirection;
-
-    [HideInInspector] public float enemyHp;
-    
-
-    [SerializeField] private List<GameObject> arrows;
-
-    private SpriteRenderer render;
-
-    [SerializeField] private float speed;
-
     public bool isDead;
-
     [HideInInspector] public GameObject arrow;
     [HideInInspector] public GameObject secondArrow;
+    public float deathDirection;
+    [HideInInspector] public float enemyHp;
+    [SerializeField] public float speed;
 
+    [SerializeField] private List<GameObject> arrows;
+    private SpriteRenderer render;
     private Dash dash;
+
     void Start()
     {
         deathDirection = Random.Range(1, 4);
@@ -45,37 +38,41 @@ public class Enemy : MonoBehaviour
         }
         if (arrows[randomIdx] == arrows[2])
         {
-            secondArrow = Instantiate(arrows[Random.Range(0,2)], transform.position + new Vector3(-1, -1, 0), arrowRotation);
+            secondArrow = Instantiate(arrows[0], transform.position + new Vector3(-1, -1, 0), arrowRotation);
             secondArrow.transform.SetParent(transform, true);
             secondArrow.SetActive(false);
         }
-
-        if (arrows[randomIdx] == arrows[1])
+        else if (arrows[randomIdx] == arrows[1])
         {
             render = arrows[1].GetComponent<SpriteRenderer>();
             render.flipX = true;
-        }
-
             arrow = Instantiate(arrows[randomIdx], transform.position + new Vector3(-1, -1, 0), arrowRotation);
             arrow.transform.SetParent(transform, true);
+
+        }
+        arrow = Instantiate(arrows[randomIdx], transform.position + new Vector3(-1, -1, 0), arrowRotation);
+        arrow.transform.SetParent(transform, true);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.down * speed * Time.deltaTime);
 
         if (dash != null)
         {
             if (dash.isDash)
             {
-                speed = 10;
+                speed = 20;
             }
             else
             {
                 speed = 5;
             }
         }
+
+        transform.Translate(Vector2.down * speed * Time.deltaTime);
+
         if (enemyHp <= 0)
         {
             isDead = true;

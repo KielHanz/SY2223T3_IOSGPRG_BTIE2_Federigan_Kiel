@@ -7,12 +7,13 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject playerObject;
     private Player player;
+
     void Start()
     {
         Time.timeScale = 1;
         player = playerObject.GetComponent<Player>();
-
     }
+
     void Update()
     {
         if(player.playerLives <= 0)
@@ -25,7 +26,5 @@ public class GameManager : MonoBehaviour
     public void Retry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
     }
-
 }

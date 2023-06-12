@@ -12,6 +12,7 @@ public class WallMovement : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     void Update()
     {
         offset += scrollSpeed * Time.deltaTime;

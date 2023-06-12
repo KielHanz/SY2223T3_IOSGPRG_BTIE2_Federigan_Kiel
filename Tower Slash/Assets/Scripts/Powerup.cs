@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
+    public int randomValue;
+
     [SerializeField] private int powerupChance;
     [SerializeField] private GameObject playerObject;
-    private Player player;
-    public int randomValue;
+    private Player player;    
+
     void Start()
     {
         player = playerObject.GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void PowerupChance()
     {
         randomValue = Random.Range(0, 100);

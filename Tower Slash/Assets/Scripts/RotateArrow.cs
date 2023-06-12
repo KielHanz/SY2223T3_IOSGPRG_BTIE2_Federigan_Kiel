@@ -12,9 +12,16 @@ public class RotateArrow : MonoBehaviour
         {
             rotateTimer -= Time.deltaTime;
         }
-        if (rotateTimer <= 0)
+      if (rotateTimer <= 0)
         {
             this.transform.eulerAngles += new Vector3(0, 0, 90);
+            if (this.transform.eulerAngles.z > 270)
+            {
+                this.transform.eulerAngles = new Vector3(0, 0, 0);
+                Debug.Log("yes");
+            }
+
+            Debug.Log("euler: " + this.transform.eulerAngles.z);
             rotateTimer = 0.2f;
         }
     }
