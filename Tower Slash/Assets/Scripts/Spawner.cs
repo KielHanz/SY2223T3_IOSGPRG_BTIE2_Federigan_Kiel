@@ -10,11 +10,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject spawner;
 
-    void Start()
+    private void Start()
     {
         timer = Random.Range(1f, 2f);
     }
-    void Update()
+    private void Update()
     {
         if (timer > 0)
         {

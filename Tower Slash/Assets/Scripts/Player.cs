@@ -5,45 +5,43 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Transform player;
-    public int playerLives;
+
+    public int playerLives = 3;
     [HideInInspector] public bool isDead;
     [HideInInspector] public bool enemyInRange;
-
-    [SerializeField]private float gravityToWall;
-    private Rigidbody2D rb;
-    private bool wrongDirection;
-    [SerializeField] private Slash slashDir;
-    private Enemy enemy;
-    private Powerup powerUp;
-    private Dash dash;
-    private CircleCollider2D circleCollider;
+    public float gravityToWall;
+    [HideInInspector] public Rigidbody2D rb;
+    public bool wrongDirection;
+    public Slash slashDir;
+    [HideInInspector] public Enemy enemy;
+    [HideInInspector] public WallMovement wall;
+    [HideInInspector] public Powerup powerUp;
+    [HideInInspector] public Dash dash;
+    [HideInInspector] public CircleCollider2D circleCollider;
+    public float dashPointsIncrement;
 
     void Start()
     {
         isDead = false;
+        dashPointsIncrement = 0.05f;
         wrongDirection = false;
         rb = GetComponent<Rigidbody2D>();
         powerUp = GetComponent<Powerup>();
         dash = GetComponent<Dash>();
+        slashDir = GetComponent<Slash>();
+        slashDir.slashDirection = 0;
         circleCollider= GetComponent<CircleCollider2D>();
+
     }
 
     void Update()
     {
-        Debug.Log(enemyInRange);
         if (isDead)
             return;
 
-        if (playerLives <0)
+        if (playerLives <= 0)
         {
             playerLives = 0;
-        }
-
-        if (wrongDirection)
-        {
-            playerLives--;
-            wrongDirection = false;
         }
 
         if (dash.isDash)
@@ -58,10 +56,23 @@ public class Player : MonoBehaviour
         if (enemy != null)
         {
 
+            if (wrongDirection)
+            {
+                playerLives--;
+                wrongDirection = false;
+            }
+
+            if (slashDir.slashDirection != 0 && enemy.deathDirection != slashDir.slashDirection && slashDir.slashDirection != 0.05f)
+            {
+                wrongDirection = true;
+                slashDir.slashDirection = 0;
+            }
+
             if (enemy.deathDirection == slashDir.slashDirection)
             {
                 enemy.enemyHp = 0;
             }
+
 
             if (dash.isDash)
             {
@@ -72,14 +83,14 @@ public class Player : MonoBehaviour
             {
                 enemyInRange = false;
                 powerUp.PowerupChance();
-                dash.increaseDashPoints();
+                increaseDashGauge(dashPointsIncrement);
+                GameUI.score += Random.Range(15, 30);
             }
 
-            if (enemy.deathDirection != slashDir.slashDirection && slashDir.slashDirection != 0)
-            {
-                wrongDirection = true;
-                slashDir.slashDirection = 0;
-            }
+        }
+        else
+        {
+            wrongDirection = false;
         }
     }
 
@@ -93,15 +104,23 @@ public class Player : MonoBehaviour
         enemy = other.GetComponent<Enemy>();
         if (enemy != null)
         {
+            Debug.Log("enemy in range");
             enemyInRange = true;
 
-            slashDir.slashDirection = 0;
+            slashDir.slashDirection = 0.05f;
 
             enemy.secondArrow.SetActive(true);
             enemy.arrow.SetActive(false);
         }
+        wall = other.GetComponent<WallMovement>();
+    }
+
+    void increaseDashGauge(float value)
+    {
+        dash.dashGauge += value;
     }
 }
+
 
 
 

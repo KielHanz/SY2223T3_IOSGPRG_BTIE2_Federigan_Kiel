@@ -8,12 +8,12 @@ public class WallMovement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float offset;
 
-    void Start()
+    private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
         offset += scrollSpeed * Time.deltaTime;
         spriteRenderer.material.SetTextureOffset("_MainTex", new Vector2(0, offset));

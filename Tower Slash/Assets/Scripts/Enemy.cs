@@ -9,13 +9,13 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public GameObject secondArrow;
     public float deathDirection;
     [HideInInspector] public float enemyHp;
-    [SerializeField] public float speed;
+    public float speed;
 
     [SerializeField] private List<GameObject> arrows;
     private SpriteRenderer render;
     private Dash dash;
 
-    void Start()
+    private void Start()
     {
         deathDirection = Random.Range(1, 4);
         int randomIdx = Random.Range(0, arrows.Count);
@@ -55,8 +55,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
         if (dash != null)
@@ -81,7 +80,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         dash = other.collider.GetComponent<Dash>();
         if (dash != null)
@@ -94,6 +93,9 @@ public class Enemy : MonoBehaviour
         {
             player.playerLives--;
         }
-       
+        else if (player != null && dash.isDash)
+        {
+            GameUI.score += Random.Range(15, 30);
+        }
     }
 }

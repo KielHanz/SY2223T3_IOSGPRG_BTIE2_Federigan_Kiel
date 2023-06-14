@@ -11,7 +11,7 @@ public class Slash : MonoBehaviour
     private Vector3 lastPos;
     private float swipeRange = 2;
 
-    void Update()
+    private void Update()
     {
         if (Input.touchCount > 0)
         {

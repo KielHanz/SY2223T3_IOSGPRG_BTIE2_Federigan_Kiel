@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class DashTap : MonoBehaviour
 {
-    [SerializeField] private GameObject gameObject;
     private Vector3 firstPos;
     private Vector3 lastPos;
     private Touch touch;
     private Vector3 touchPosition;
     private float swipeRange = 2;
     private Player player;
-    private GameUI game;
-
+    
     void Start()
     {
         player = GetComponent<Player>();
-        game = gameObject.GetComponent<GameUI>();
     }
 
     void Update()
@@ -31,6 +28,7 @@ public class DashTap : MonoBehaviour
         if (Input.touchCount > 0 && touch.phase == TouchPhase.Began)
         {
             firstPos = touchPosition;
+ 
         }
         else if (Input.touchCount > 0 && touch.phase == TouchPhase.Ended)
         {
@@ -40,8 +38,9 @@ public class DashTap : MonoBehaviour
             //only activate if no enemy in player range
             if (swipeDistance <= swipeRange && !player.enemyInRange && !player.isDead)
             {
-                game.score += 10;
+                GameUI.score += Random.Range(5,10);
             }
+
         }
     }
 }

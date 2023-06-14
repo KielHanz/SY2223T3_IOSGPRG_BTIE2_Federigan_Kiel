@@ -8,9 +8,9 @@ public class Powerup : MonoBehaviour
 
     [SerializeField] private int powerupChance;
     [SerializeField] private GameObject playerObject;
-    private Player player;    
+    private Player player;
 
-    void Start()
+    private void Start()
     {
         player = playerObject.GetComponent<Player>();
     }
@@ -18,11 +18,10 @@ public class Powerup : MonoBehaviour
     public void PowerupChance()
     {
         randomValue = Random.Range(0, 100);
+        Debug.Log(randomValue);
         if (randomValue < powerupChance)
         {
             player.playerLives++;
         }
-
-        Debug.Log("powerup called");
     }
 }
