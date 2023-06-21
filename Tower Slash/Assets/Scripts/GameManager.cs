@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject playerObj;
     public GameObject wallObj;
+    public bool chosen;
 
     private Player player;
     private WallMovement wall;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
         if (chooseChar.chosen)
         {
+            chosen = chooseChar.chosen;
             wallObj = Instantiate(wallPrefab, wallPos.transform.position, Quaternion.identity);
             wall = wallObj.GetComponent<WallMovement>();
             playerObj = Instantiate(playerCharacters[chooseChar.chosenCharacter], playerSpawn.transform.position, Quaternion.identity);

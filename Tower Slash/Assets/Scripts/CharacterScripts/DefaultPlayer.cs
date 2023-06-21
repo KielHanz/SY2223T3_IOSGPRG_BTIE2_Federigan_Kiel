@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DefaultPlayer : Player
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         playerLives = 3;
         dashPointsIncrement = 0.05f;

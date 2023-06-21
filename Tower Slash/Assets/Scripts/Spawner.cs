@@ -14,6 +14,7 @@ public class Spawner : MonoBehaviour
     {
         timer = Random.Range(1f, 2f);
     }
+
     private void Update()
     {
         if (timer > 0)

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class SpeedPlayer :Player
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         wrongDirection = false;
         playerLives = 3;

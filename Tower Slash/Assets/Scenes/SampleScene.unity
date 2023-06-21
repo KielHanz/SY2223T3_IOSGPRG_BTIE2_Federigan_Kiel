@@ -216,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173561178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 12.89, z: 8.783038}
+  m_LocalPosition: {x: 0.83, y: 10.47, z: 8.783038}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1247,6 +1247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674444056}
   - component: {fileID: 674444055}
+  - component: {fileID: 674444057}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1268,6 +1269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObj: {fileID: 0}
   wallObj: {fileID: 0}
+  chosen: 0
   wallPos: {fileID: 247557511}
   wallPrefab: {fileID: 2703060850762803391, guid: 9bc8e70e35786034a808f5d009702dbf, type: 3}
   playerCharacters:
@@ -1292,6 +1294,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &674444057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674444054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d1d95a7bb2e114f883188c61dc2e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &822529176
 GameObject:
   m_ObjectHideFlags: 0

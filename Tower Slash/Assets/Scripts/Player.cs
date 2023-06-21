@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public CircleCollider2D circleCollider;
     public float dashPointsIncrement;
 
-    void Start()
+    private void Start()
     {
         isDead = false;
         dashPointsIncrement = 0.05f;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void Update()
+    private void Update()
     {
         if (isDead)
             return;
@@ -94,12 +94,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         rb.velocity = Vector2.right * gravityToWall * Time.deltaTime;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         enemy = other.GetComponent<Enemy>();
         if (enemy != null)
@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
         wall = other.GetComponent<WallMovement>();
     }
 
-    void increaseDashGauge(float value)
+    private void increaseDashGauge(float value)
     {
         dash.dashGauge += value;
     }

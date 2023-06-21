@@ -5,7 +5,7 @@ using UnityEngine;
 public class TankPlayer : Player
 {
 
-    void Start()
+    private void Start()
     {
         playerLives = 5;
         dashPointsIncrement = 0.05f;

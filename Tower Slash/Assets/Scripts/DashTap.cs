@@ -9,15 +9,28 @@ public class DashTap : MonoBehaviour
     private Touch touch;
     private Vector3 touchPosition;
     private float swipeRange = 2;
+    private GameManager game;
     private Player player;
-    
-    void Start()
+    private WallMovement wall;
+
+    private void Start()
     {
-        player = GetComponent<Player>();
+        game = GetComponent<GameManager>();
     }
 
-    void Update()
+    private void Update()
     {
+        if (game.chosen)
+        {
+            player = game.playerObj.GetComponent<Player>();
+            wall = game.wallObj.GetComponent<WallMovement>();
+        }
+
+        if (player == null)
+        {
+            return;
+        }
+
         if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
@@ -38,9 +51,30 @@ public class DashTap : MonoBehaviour
             //only activate if no enemy in player range
             if (swipeDistance <= swipeRange && !player.enemyInRange && !player.isDead)
             {
-                GameUI.score += Random.Range(5,10);
+
+                StartCoroutine(TapTime(0.05f));
             }
 
         }
+    }
+    private IEnumerator TapTime(float time)
+    {
+        if (player.dash != null)
+        {
+            player.dash.isDash = true;
+        }
+      
+        GameUI.score += Random.Range(5, 10);
+        yield return new WaitForSeconds(time);
+
+        if (player.enemy != null)
+        {
+            player.enemy.speed = 5;
+        }
+            wall.scrollSpeed = 2.25f;
+            player.dash.dashTimer = 3f;
+            player.dash.isDash = false;
+
+
     }
 }
