@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ammo : MonoBehaviour
+public class AmmoPickup : MonoBehaviour
 {
     [SerializeField] private int ammoMax;
     [SerializeField] private int ammoMin;

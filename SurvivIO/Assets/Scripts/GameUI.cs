@@ -4,32 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour
+public class GameUI : Singleton<GameUI>
 {
-    [SerializeField] private TextMeshProUGUI pistolAmmoCarryUI;
-    [SerializeField] private TextMeshProUGUI shotgunAmmoCarryUI;
-    [SerializeField] private TextMeshProUGUI automaticRifleAmmoCarryUI;
+    public TextMeshProUGUI pistolAmmoCarryUI;
+    public TextMeshProUGUI shotgunAmmoCarryUI;
+    public TextMeshProUGUI automaticRifleAmmoCarryUI;
+    public Slider hpSlider;
 
-    [SerializeField] private GameObject player;
-
-    [SerializeField] private Inventory inventory;
-
-    [SerializeField] private Slider hpSlider;
-
-    private Health health;
-
-    private void Start()
-    {
-        health = player.GetComponent<Health>();
-
-    }
-
-    private void Update()
-    {
-        hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
-
-        pistolAmmoCarryUI.text = inventory.ammos[0]._gunAmmoCarry + " / 90";
-        shotgunAmmoCarryUI.text = inventory.ammos[1]._gunAmmoCarry + " / 60";
-        automaticRifleAmmoCarryUI.text = inventory.ammos[2]._gunAmmoCarry + " / 120";
-    }
 }

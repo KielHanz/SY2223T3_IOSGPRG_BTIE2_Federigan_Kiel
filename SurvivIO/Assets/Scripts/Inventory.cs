@@ -28,31 +28,37 @@ public class Inventory : MonoBehaviour
         {
             _player.SetCurrentGun(_primaryWeapon);
         }
+        else if (weaponSlot == WeaponSlot.Secondary)
+        {
+            _player.SetCurrentGun(_secondaryWeapon);
+        }
+    }
 
+    public void ChangeToPrimaryWeapon()
+    {
+        _player.SetCurrentGun(_primaryWeapon);
+
+    }
+
+    public void ChangeToSecondaryWeapon()
+    {
+        _player.SetCurrentGun(_secondaryWeapon);
     }
 
     public void AddAmmo(Weapon weapon, int amount)
     {
-        
-        if (weapon == Weapon.Pistol)
+        for (int i = 0; i < ammos.Length; i++)
         {
-            ammos[0]._gunAmmoCarry += amount;
+            if ((int)weapon == i)
+            {
+                ammos[(int)weapon]._gunAmmoCarry += amount;
+                ammos[(int)weapon]._gunAmmoCarry = Mathf.Min(ammos[(int)weapon]._gunAmmoCarry, ammos[(int)weapon]._gunAmmoMaxCarry);
 
-            ammos[0]._gunAmmoCarry = Mathf.Min(ammos[0]._gunAmmoCarry, ammos[0]._gunAmmoMaxCarry);
+            }
         }
 
-        if (weapon == Weapon.Shotgun)
-        {
-            ammos[1]._gunAmmoCarry += amount;
-
-            ammos[1]._gunAmmoCarry = Mathf.Min(ammos[1]._gunAmmoCarry, ammos[1]._gunAmmoMaxCarry);
-        }
-
-        if (weapon == Weapon.AutomaticRifle)
-        {
-            ammos[2]._gunAmmoCarry += amount;
-
-            ammos[2]._gunAmmoCarry = Mathf.Min(ammos[2]._gunAmmoCarry, ammos[2]._gunAmmoMaxCarry);
-        }
+        GameUI.Instance.pistolAmmoCarryUI.text = ammos[0]._gunAmmoCarry + " / 90";
+        GameUI.Instance.shotgunAmmoCarryUI.text = ammos[1]._gunAmmoCarry + " / 60";
+        GameUI.Instance.automaticRifleAmmoCarryUI.text = ammos[2]._gunAmmoCarry + " / 120";
     }
 }

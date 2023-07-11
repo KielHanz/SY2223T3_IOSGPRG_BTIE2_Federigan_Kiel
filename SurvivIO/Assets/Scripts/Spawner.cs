@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class Spawner : Singleton<Spawner>
 {
     [SerializeField] private GameObject _meleeEnemyPrefab;
     [SerializeField] private GameObject _rangedEnemyPrefab;
     [SerializeField] private GameObject _bossEnemyPrefab;
+
+    [SerializeField] private GameObject _pistolAmmoPrefab;
+    [SerializeField] private GameObject _shotgunAmmoPrefab;
+    [SerializeField] private GameObject _AutoRifleAmmoPrefab;
 
     [SerializeField] private List<Unit> _enemies;
     private void Start()
@@ -37,5 +41,10 @@ public class Spawner : MonoBehaviour
             unit.Initialize(name, maxHealth, speed);
             
         }
+    }
+
+    private void SpawnWeapons()
+    {
+
     }
 }

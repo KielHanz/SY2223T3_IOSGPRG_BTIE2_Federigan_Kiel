@@ -32,13 +32,13 @@ public class Player : Unit
             health.TakeDamage(5);
             enemyHealth.TakeDamage(5); //temporary
 
+            GameUI.Instance.hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
             Debug.Log($"{_name} dealt damage to {collision.gameObject.name}");
         }
     }
 
     private void Movement()
     {
-
         _rb2D.velocity = new Vector3(_moveJoystick.Horizontal * _speed, _moveJoystick.Vertical * _speed, 0);
     }
 
