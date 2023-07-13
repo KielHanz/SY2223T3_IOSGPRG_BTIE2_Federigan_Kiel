@@ -19,20 +19,23 @@ public class Player : Unit
     {
         Movement();
         Aim();
-
+        Reload();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Health health = this.gameObject.GetComponent<Health>();
         Health enemyHealth = collision.gameObject.GetComponent<Health>(); //temporary
+        Unit enemy = collision.gameObject.GetComponent<Unit>();
 
         if (health != null && enemyHealth != null)
         {
             health.TakeDamage(5);
             enemyHealth.TakeDamage(5); //temporary
+            enemy.ManageHealth();
+    
 
-            GameUI.Instance.hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
+            GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
             Debug.Log($"{_name} dealt damage to {collision.gameObject.name}");
         }
     }
@@ -58,8 +61,14 @@ public class Player : Unit
         Debug.Log($"{_name} is Shooting");
     }
 
+    public override void Reload()
+    {
+        base.Reload();
+    }
     public void SetCurrentGun(Gun gun)
     {
         _currentGun = gun;
+        _currentGun.gameObject.SetActive(true);
+
     }
 }

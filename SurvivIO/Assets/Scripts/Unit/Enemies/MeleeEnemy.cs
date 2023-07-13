@@ -9,8 +9,4 @@ public class MeleeEnemy : Unit
         HealthBar();
     }
 
-    private void Update()
-    {
-        ManageHealth();
-    }
 }

@@ -6,17 +6,22 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Health))]
 public class Unit : MonoBehaviour
 {
+
+    public Gun _currentGun;
+
     [SerializeField] private Health _health;
 
     [SerializeField] protected string _name;
-
     [SerializeField] protected float _speed;
-
-    [SerializeField] protected Gun _currentGun;
 
     [SerializeField] private GameObject _enemyHealthBar;
     [SerializeField] private Slider _enemyHpSlider;
+    private GameObject _healthBar;
 
+    private void Awake()
+    {
+        //GameManager.Instance._inventory._gun = GameManager.Instance._inventory._currentGunHolder.GetComponent<Gun>();
+    }
     public void Initialize(string name, int maxHealth, float speed)
     {
         _name = name;
@@ -36,15 +41,22 @@ public class Unit : MonoBehaviour
         _currentGun.Shoot();
     }
 
+    public virtual void Reload()
+    {
+        _currentGun.Reload();
+    }
+
     protected void HealthBar()
     {
-        GameObject healthBar = Instantiate(_enemyHealthBar, transform.position + new Vector3(0, 1, 0), Quaternion.identity, transform);
-        _enemyHpSlider = healthBar.transform.GetChild(0).GetComponentInChildren<Slider>();
+        _healthBar = Instantiate(_enemyHealthBar, transform.position + new Vector3(0, 1, 0), Quaternion.identity, transform);
+        _healthBar.SetActive(false);
+        _enemyHpSlider = _healthBar.transform.GetChild(0).GetComponentInChildren<Slider>();
         Debug.Log(_enemyHpSlider);
     }
 
-    protected void ManageHealth()
+    public void ManageHealth()
     {
+        _healthBar.SetActive(true);
         _enemyHpSlider.value = (float)_health.CurrentHealth / (float)_health.MaxHealth;
     }
 }

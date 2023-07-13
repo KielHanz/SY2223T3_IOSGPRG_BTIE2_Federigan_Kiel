@@ -9,8 +9,4 @@ public class RangedEnemy : Unit
         HealthBar();
     }
 
-    private void Update()
-    {
-        ManageHealth();
-    }
 }

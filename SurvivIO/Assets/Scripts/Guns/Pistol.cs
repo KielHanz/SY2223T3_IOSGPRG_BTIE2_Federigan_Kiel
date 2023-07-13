@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Pistol : Gun
 {
-
+    private void Update()
+    {
+        Reload();
+    }
     public override void Shoot()
     {
         base.Shoot();

@@ -9,8 +9,4 @@ public class BossEnemy : Unit
         HealthBar();
     }
 
-    private void Update()
-    {
-        ManageHealth();
-    }
 }

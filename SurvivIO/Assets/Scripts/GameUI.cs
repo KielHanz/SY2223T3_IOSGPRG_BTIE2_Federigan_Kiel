@@ -6,9 +6,15 @@ using UnityEngine.UI;
 
 public class GameUI : Singleton<GameUI>
 {
-    public TextMeshProUGUI pistolAmmoCarryUI;
-    public TextMeshProUGUI shotgunAmmoCarryUI;
-    public TextMeshProUGUI automaticRifleAmmoCarryUI;
-    public Slider hpSlider;
+    public List<TextMeshProUGUI> _gunAmmoCarryUIs;
+    public TextMeshProUGUI _pistolAmmoCarryUI;
+    public TextMeshProUGUI _shotgunAmmoCarryUI;
+    public TextMeshProUGUI _automaticRifleAmmoCarryUI;
+
+    public TextMeshProUGUI _currentAmmoUI;
+    public TextMeshProUGUI _maxAmmoUI;
+    public Image _primaryBtn;
+    public Image _secondaryBtn;
+    public Slider _hpSlider;
 
 }
