@@ -19,7 +19,6 @@ public class Player : Unit
     {
         Movement();
         Aim();
-        Reload();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -33,7 +32,7 @@ public class Player : Unit
             health.TakeDamage(5);
             enemyHealth.TakeDamage(5); //temporary
             enemy.ManageHealth();
-    
+
 
             GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
             Debug.Log($"{_name} dealt damage to {collision.gameObject.name}");
@@ -65,10 +64,10 @@ public class Player : Unit
     {
         base.Reload();
     }
+
     public void SetCurrentGun(Gun gun)
     {
         _currentGun = gun;
-        _currentGun.gameObject.SetActive(true);
 
     }
 }

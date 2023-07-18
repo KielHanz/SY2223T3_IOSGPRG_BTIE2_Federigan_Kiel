@@ -18,10 +18,6 @@ public class Unit : MonoBehaviour
     [SerializeField] private Slider _enemyHpSlider;
     private GameObject _healthBar;
 
-    private void Awake()
-    {
-        //GameManager.Instance._inventory._gun = GameManager.Instance._inventory._currentGunHolder.GetComponent<Gun>();
-    }
     public void Initialize(string name, int maxHealth, float speed)
     {
         _name = name;

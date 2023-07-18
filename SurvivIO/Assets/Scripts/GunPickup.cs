@@ -12,6 +12,7 @@ public class GunPickup : MonoBehaviour
     {
         player = GameManager.Instance._player;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         gun = gunObj.GetComponent<Gun>();
@@ -19,8 +20,7 @@ public class GunPickup : MonoBehaviour
         Inventory inventory = collision.GetComponent<Inventory>();
         if (inventory != null)
         {
-
-            inventory.PickUpWeapon(gun, gunObj);
+            inventory.PickUpWeapon(gun);
 
             Destroy(this.gameObject);
         }

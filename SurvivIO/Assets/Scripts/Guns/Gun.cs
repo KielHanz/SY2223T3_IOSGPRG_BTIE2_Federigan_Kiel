@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEditor.PlayerSettings;
+using UnityEngine.UIElements;
 
 public class Gun : MonoBehaviour
 {
@@ -11,87 +10,92 @@ public class Gun : MonoBehaviour
     public Weapon _weaponType;
     public Transform nozzle;
 
-    [SerializeField]protected float _fireRate;
-    [SerializeField]protected float _spread;
+    [SerializeField] protected float _fireRate;
+    [SerializeField] protected float _spread;
+
     [SerializeField] protected GameObject bullet;
     protected Gun gun;
-    protected Gun prevGun;
+
+    private GameObject gunObj;
 
     public int _currentAmmo;
-    [SerializeField]protected int maxClip;
+    [SerializeField] protected int maxClip;
 
-    private bool isEmpty;
+    private bool isClipEmpty;
+    private float reloadTime = 3;
+    private float tempReloadTimer;
 
-    private void Start()
+    private void Awake()
     {
-        if (gun != null)
+        tempReloadTimer = 3;
+    }
+
+    private void Update()
+    {
+
+        if (_currentAmmo <= 0)
         {
-            gun._currentAmmo = maxClip;
-            GameUI.Instance._currentAmmoUI.text = "" + gun._currentAmmo;
+            isClipEmpty = true;
         }
+
+        if (_currentAmmo <= 0 && _maxAmmo > 0)
+        {
+            Reload();
+        }
+
     }
 
     public virtual void Shoot()
     {
-
-        Debug.Log("Base Gun Shooting");
-
-        //temporary
-        gun = GameManager.Instance._inventory._gun;
-      
-
-        if (gun != null)
+        if (isClipEmpty)
         {
-            Instantiate(bullet, gun.nozzle.transform.position, gun.transform.rotation);
+            return;
         }
-        gun._currentAmmo--;
 
-        Reload();
+        gunObj = GameManager.Instance._inventory._tempGun;
 
-        GameUI.Instance._currentAmmoUI.text = "" + gun._currentAmmo;
-        GameUI.Instance._maxAmmoUI.text = "" + _maxAmmo;
+
+        if (gunObj != null)
+        {
+            Instantiate(bullet, gunObj.GetComponent<Gun>().nozzle.transform.position, gunObj.transform.rotation);
+            _currentAmmo--;
+            GameUI.Instance._currentAmmoUI.text = "" + _currentAmmo;
+        }
+
     }
 
     public virtual void Reload()
     {
-
-        gun = GameManager.Instance._inventory._gun;
-        if (gun._currentAmmo <= 0 && _maxAmmo <= 0)
+        if (tempReloadTimer > 0)
         {
-            gun._currentAmmo = 0;
-            isEmpty = true;
-        }
-        else if (gun._currentAmmo > 0 || _maxAmmo > 0)
-        {
-            isEmpty = false;
+            tempReloadTimer -= Time.deltaTime;
         }
 
-        if (isEmpty)
+        if (tempReloadTimer <= 0)
         {
-            return;
-        }
-  
-        if (gun._currentAmmo == 0)
-        {
-            Debug.Log("reloading");
-            if (_maxAmmo > maxClip)
+            _maxAmmo -= maxClip - _currentAmmo;
+
+            if (_maxAmmo < _currentAmmo && _currentAmmo == 0)
             {
-                _maxAmmo -= maxClip;
+                _currentAmmo = _maxAmmo + maxClip;
+            }
+            else
+            {
+                _currentAmmo = maxClip;
             }
 
-            if (_maxAmmo > 0 || gun._currentAmmo > 0)
+            if (_maxAmmo < 0)
             {
-                gun._currentAmmo = maxClip;
-            }
-            if (_maxAmmo < maxClip)
-            {
-                gun._currentAmmo = _maxAmmo;
                 _maxAmmo = 0;
-
             }
-            GameUI.Instance._currentAmmoUI.text = "" + gun._currentAmmo;
-            GameUI.Instance._maxAmmoUI.text = "" + _maxAmmo;
+
+            tempReloadTimer = reloadTime;
+            isClipEmpty = false;
         }
+
+        GameManager.Instance._inventory.ammos[(int)_weaponType]._gunAmmoCarry = _maxAmmo;
+        GameUI.Instance._currentAmmoUI.text = "" + _currentAmmo;
+        GameUI.Instance._maxAmmoUI.text = "" + _maxAmmo;
 
     }
 }

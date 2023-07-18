@@ -138,3 +138,6 @@ MonoBehaviour:
   bullet: {fileID: 4455448556825982186, guid: 94d41e3fa144c8945b0c4757526f9ccd, type: 3}
   _currentAmmo: 0
   maxClip: 2
+  isEmpty: 1
+  isClipEmpty: 1
+  isReloading: 0
