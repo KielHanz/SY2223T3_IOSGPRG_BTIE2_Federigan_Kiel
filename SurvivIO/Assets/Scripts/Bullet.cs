@@ -19,6 +19,19 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        Health health = collision.gameObject.GetComponent<Health>();
+        Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+        Unit enemy = collision.gameObject.GetComponent<Unit>();
+        if (health != null)
+        {
+            health.TakeDamage(5);
+            enemy.ManageHealth();
+
+            Destroy(gameObject);
+        }
+        else if (bullet == null) 
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -12,5 +12,6 @@ public enum Weapon
 {
     Pistol,
     Shotgun,
-    AutomaticRifle
+    AutomaticRifle,
+    None
 }

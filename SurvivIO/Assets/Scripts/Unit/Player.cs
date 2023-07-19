@@ -7,11 +7,12 @@ public class Player : Unit
 {
     [SerializeField] private Joystick _moveJoystick;
     [SerializeField] private Joystick _aimJoystick;
+    public ButtonHold _button;
     private Rigidbody2D _rb2D;
 
     private void Start()
     {
-        base.Initialize("Hunter", 100, 5);
+        base.Initialize("Hunter", 100, 10);
         _rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -19,24 +20,23 @@ public class Player : Unit
     {
         Movement();
         Aim();
+        if (_button.buttonHeld && !GameManager.Instance._inventory._isSwitched)
+        {
+            Shoot();
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision) // temporary
     {
-        Health health = this.gameObject.GetComponent<Health>();
-        Health enemyHealth = collision.gameObject.GetComponent<Health>(); //temporary
-        Unit enemy = collision.gameObject.GetComponent<Unit>();
+        //Health health = this.gameObject.GetComponent<Health>();
 
-        if (health != null && enemyHealth != null)
-        {
-            health.TakeDamage(5);
-            enemyHealth.TakeDamage(5); //temporary
-            enemy.ManageHealth();
+        //if (health != null)
+        //{
+        //    health.TakeDamage(5);
 
-
-            GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
-            Debug.Log($"{_name} dealt damage to {collision.gameObject.name}");
-        }
+        //    GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
+        //    Debug.Log($"{_name} dealt damage to {collision.gameObject.name}");
+        //}
     }
 
     private void Movement()
@@ -56,8 +56,10 @@ public class Player : Unit
 
     public override void Shoot()
     {
+
         base.Shoot();
         Debug.Log($"{_name} is Shooting");
+        
     }
 
     public override void Reload()

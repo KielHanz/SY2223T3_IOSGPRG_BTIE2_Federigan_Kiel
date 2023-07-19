@@ -16,26 +16,43 @@ public struct Ammos
 
 public class Inventory : MonoBehaviour
 {
-    private Player _player;
 
     public Ammos[] ammos;
+    public GameObject _tempGun;
 
     private int _healthKits;
 
-    public Gun _primaryWeapon;
-    public Gun _secondaryWeapon;
-
-    public bool _isPrimary;
-    public bool _isSecondary;
-
-    public GameObject _tempGun;
+    private Player _player;
+    private Gun _primaryWeapon;
+    private Gun _secondaryWeapon;
     private int _prevGunAmmo;
+    private bool _isPrimary;
+    private bool _isSecondary;
+    public bool _isSwitched;
+    private float _switchTime;
+    private float _switchTimer;
 
     private void Start()
     {
         _player = GameManager.Instance._player;
         GameUI.Instance._primaryBtn.GetComponent<Image>().color = new Color(0, 0, 0, 1f);
         GameUI.Instance._secondaryBtn.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
+        _switchTime = 1;
+        _switchTimer = _switchTime;
+    }
+
+    private void Update()
+    {
+        if (_switchTimer > 0 && _isSwitched)
+        {
+            _switchTimer -= Time.deltaTime;
+        }
+
+        if (_switchTimer <= 0)
+        {
+            _isSwitched = false;
+            _switchTimer = _switchTime;
+        }
     }
 
     private void UpdateAmmo()
@@ -50,14 +67,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log(_player._currentGun._maxAmmo);
-        }
-    }
-
     private void InstantiateWeapon(Gun gun)
     {
         Destroy(_tempGun);
@@ -67,39 +76,39 @@ public class Inventory : MonoBehaviour
         UpdateAmmo();
     }
 
-    public void ChangeWeapon(WeaponSlot weaponSlot)
-    {
-        if (weaponSlot == WeaponSlot.Primary)
-        {
-            _player.SetCurrentGun(_primaryWeapon);
-        }
-        else if (weaponSlot == WeaponSlot.Secondary)
-        {
-            _player.SetCurrentGun(_secondaryWeapon);
-        }
-    }
-
     public void PickUpWeapon(Gun gun)
     {
-        if (_primaryWeapon == null || (_primaryWeapon != null && _secondaryWeapon != null && _isPrimary))
+        _isSwitched = true;
+        if (_primaryWeapon != null && _secondaryWeapon == null)
         {
+            _prevGunAmmo = _player._currentGun._currentAmmo;
+        }
+
+        if ((_primaryWeapon == null || _primaryWeapon != null) && gun._weaponSlotType == WeaponSlot.Primary)
+        {
+            if (_player._currentGun != null)
+            {
+                _prevGunAmmo = _player._currentGun._currentAmmo;
+            }
             _primaryWeapon = gun;
             _player.SetCurrentGun(_primaryWeapon);
             InstantiateWeapon(_primaryWeapon);
+            _player._currentGun._currentAmmo = 0;
             _isPrimary = true;
             _isSecondary = false;
 
+            GameUI.Instance._primaryBtn.GetComponent<Image>().color = new Color(0, 0, 0, 1f);
+            GameUI.Instance._secondaryBtn.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
         }
-        else if (_primaryWeapon != null && _secondaryWeapon == null || (_primaryWeapon != null && _secondaryWeapon != null && _isSecondary))
+        else if (_secondaryWeapon == null && gun._weaponSlotType == WeaponSlot.Secondary)
         {
-            _prevGunAmmo = _tempGun.GetComponent<Gun>()._currentAmmo;
+            _prevGunAmmo = _player._currentGun._currentAmmo;
             _secondaryWeapon = gun;
             _player.SetCurrentGun(_secondaryWeapon);
             InstantiateWeapon(_secondaryWeapon);
+            _player._currentGun._currentAmmo = 0;
             _isPrimary = false;
             _isSecondary = true;
-
-            Debug.Log(_tempGun.GetComponent<Gun>()._currentAmmo);
 
             GameUI.Instance._primaryBtn.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
             GameUI.Instance._secondaryBtn.GetComponent<Image>().color = new Color(0, 0, 0, 1f);
@@ -115,16 +124,15 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        _isSwitched = true;
+
         if (!_isPrimary)
         {
             _primaryWeapon._currentAmmo = _prevGunAmmo;
             _prevGunAmmo = _player._currentGun._currentAmmo;
-            //_prevGunAmmo = _tempGun.GetComponent<Gun>()._currentAmmo;
             InstantiateWeapon(_primaryWeapon);
-
         }
 
-        //_player.SetCurrentGun(_primaryWeapon);
         _isPrimary = true;
         _isSecondary = false;
 
@@ -140,17 +148,15 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        _isSwitched = true;
+
         if (!_isSecondary)
         {
             _secondaryWeapon._currentAmmo = _prevGunAmmo;
             _prevGunAmmo = _player._currentGun._currentAmmo;
-            //_prevGunAmmo = _tempGun.GetComponent<Gun>()._currentAmmo;
-            Debug.Log(_primaryWeapon._currentAmmo);
-            InstantiateWeapon(_secondaryWeapon);
-
+             InstantiateWeapon(_secondaryWeapon);
         }
 
-        // _player.SetCurrentGun(_secondaryWeapon);
         _isPrimary = false;
         _isSecondary = true;
 
