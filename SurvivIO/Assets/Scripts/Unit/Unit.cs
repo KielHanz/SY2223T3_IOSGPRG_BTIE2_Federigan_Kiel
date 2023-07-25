@@ -24,8 +24,8 @@ public class Unit : MonoBehaviour
     protected float _patrolWaitTime;
     protected Quaternion targetRotation;
 
-    protected bool isWithinRange;
     protected Unit unit;
+    protected bool isWithinRange;
     public List<Unit> unitList = new List<Unit>();
 
     private void Update()
@@ -75,17 +75,6 @@ public class Unit : MonoBehaviour
         _enemyHpSlider.value = (float)_health.CurrentHealth / (float)_health.MaxHealth;
     }
 
-    //public bool isWithinRange()
-    //{
-    //    float distance = Vector2.Distance(GameManager.Instance._player.transform.position, this.transform.position);
-
-    //    if (distance < 5)
-    //    {
-    //        return true;
-    //    }
-    //    return false;
-    //}
-
     public void Patrol()
     {
         if (_patrolWaitTime > 0)
@@ -113,18 +102,25 @@ public class Unit : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, targetDestination, _speed * Time.deltaTime);
     }
 
-    //public void MoveTowardsTarget(Collider2D collision)
-    //{
-    //    unit = collision.GetComponent<Unit>();
+    public void MoveTowardsTarget(float attackRange)
+    {
+        if (!isWithinRange)
+        {
+            Patrol();
+        }
+        else if (unitList != null && isWithinRange)
+        {
+            if (unitList.Count <= 0)
+            {
+                isWithinRange = false;
+                return;
+            }
 
-    //    if (unit != null)
-    //    {
-    //        if (Vector2.Distance(unit.transform.position, this.transform.position) >= 4f)
-    //        {
-    //            isWithinRange = true;
-    //            transform.position = Vector2.MoveTowards(transform.position, unit.transform.position, _speed * Time.deltaTime);
-    //        }
-    //        transform.right = unit.transform.position - transform.position;
-    //    }
-    //}
+            if (Vector2.Distance(unitList[0].transform.position, this.transform.position) >= attackRange)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, unitList[0].transform.position, _speed * Time.deltaTime);
+            }
+            transform.right = unitList[0].transform.position - transform.position;
+        }
+    }
 }

@@ -26,7 +26,6 @@ public class GameUI : Singleton<GameUI>
     {
        _primaryBtn.GetComponent<Image>().color = primarySlotColor;
        _secondaryBtn.GetComponent<Image>().color = secondarySlotColor;
-
     }
 
     public void primaryImageSlot(Sprite primaryImage)
@@ -39,9 +38,10 @@ public class GameUI : Singleton<GameUI>
         _secondaryBtnLogo.sprite = secondaryImage;
     }
 
-    public void UpdateCurrentAmmoUI()
+    public void UpdateAmmoUI()
     {
         _currentAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._currentAmmo;
+        _maxAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._maxAmmo;
     }
 
 }

@@ -16,18 +16,7 @@ public class RangedEnemy : Unit
 
     private void FixedUpdate()
     {
-        if (!isWithinRange)
-        {
-            Patrol();
-        }
-        else if (unitList != null)
-        {
-            if (Vector2.Distance(unitList[0].transform.position, this.transform.position) >= 5f)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, unitList[0].transform.position, _speed * Time.deltaTime);
-            }
-            transform.right = unitList[0].transform.position - transform.position;
-        }
+        MoveTowardsTarget(5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,16 +25,14 @@ public class RangedEnemy : Unit
 
         if (unit != null)
         {
-            unitList.Add(unit);
             isWithinRange = true;
-            Debug.Log("Unit added to unitList");
+            unitList.Add(unit);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         unit = other.GetComponent<Unit>();
-
         unitList.Remove(unit);
     }
 

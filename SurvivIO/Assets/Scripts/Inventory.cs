@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour
             if ((int)_player._currentGun._weaponType == i)
             {
                 _player._currentGun._maxAmmo = ammos[i]._gunAmmoCarry;
-                GameUI.Instance.UpdateCurrentAmmoUI();
+                GameUI.Instance.UpdateAmmoUI();
             }
         }
     }
