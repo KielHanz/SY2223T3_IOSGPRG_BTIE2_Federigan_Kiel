@@ -17,6 +17,14 @@ public class Health : MonoBehaviour
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _currentHealth;
 
+    public void Update()
+    {
+        if (_currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Initialize(int maxHealth)
     {
         _maxHealth = maxHealth;
@@ -35,4 +43,5 @@ public class Health : MonoBehaviour
 
         _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
     }
+
 }

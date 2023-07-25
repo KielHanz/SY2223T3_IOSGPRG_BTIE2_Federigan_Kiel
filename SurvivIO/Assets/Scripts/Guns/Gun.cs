@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class Gun : MonoBehaviour
 
     public Transform nozzle;
     [SerializeField] protected GameObject bullet;
+    public Sprite _logo;
 
     public Weapon _weaponType;
     public WeaponSlot _weaponSlotType;
@@ -64,7 +67,7 @@ public class Gun : MonoBehaviour
 
         if (_fireTimer <= 0 || _fireTimer == _fireRate)
         {
-            gunObj = GameManager.Instance._inventory._tempGun;
+            gunObj = GameManager.Instance._player._currentGun.gameObject;
 
             if (gunObj != null)
             {
@@ -79,7 +82,6 @@ public class Gun : MonoBehaviour
             }
             _fireTimer = _fireRate;
         }
-
     }
 
     public virtual void Reload()

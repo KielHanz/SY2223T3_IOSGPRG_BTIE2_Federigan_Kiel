@@ -131,13 +131,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxAmmo: 0
   _damage: 10
-  _weaponType: 1
-  _weaponSlotType: 0
-  nozzle: {fileID: 1665739618862269659}
-  _fireRate: 0.6
-  _spreadDegree: 10
-  bullet: {fileID: 4455448556825982186, guid: 94d41e3fa144c8945b0c4757526f9ccd, type: 3}
   _currentAmmo: 0
-  maxClip: 2
   _reloadSpeed: 2.7
   _numberOfBullets: 3
+  _fireRate: 0.6
+  _spreadDegree: 10
+  maxClip: 2
+  nozzle: {fileID: 1665739618862269659}
+  bullet: {fileID: 4455448556825982186, guid: 94d41e3fa144c8945b0c4757526f9ccd, type: 3}
+  _logo: {fileID: 21300000, guid: de291d9224220a2479fda856d7162993, type: 3}
+  _weaponType: 1
+  _weaponSlotType: 0

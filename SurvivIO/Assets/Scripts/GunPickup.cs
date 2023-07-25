@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class GunPickup : MonoBehaviour
 {
-    private Player player;
     [SerializeField] private GameObject gunObj;
-    private Gun gun;
 
-    private void Start()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        player = GameManager.Instance._player;
-    }
+        Gun gun = gunObj.GetComponent<Gun>();
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        gun = gunObj.GetComponent<Gun>();
-
-        Inventory inventory = collision.GetComponent<Inventory>();
+        Inventory inventory = collision.gameObject.GetComponent<Inventory>();
         if (inventory != null)
         {
             inventory.PickUpWeapon(gun);

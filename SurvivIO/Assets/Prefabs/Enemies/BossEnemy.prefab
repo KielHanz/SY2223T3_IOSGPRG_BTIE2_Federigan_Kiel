@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9003360214141148938}
   - component: {fileID: 9003360214141148939}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,8 @@ GameObject:
   - component: {fileID: 9003360214211032726}
   - component: {fileID: 9003360214211032722}
   - component: {fileID: -7095567679399614646}
-  m_Layer: 0
+  - component: {fileID: -9003367778553056357}
+  m_Layer: 10
   m_Name: BossEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,6 +204,7 @@ MonoBehaviour:
   _health: {fileID: 9003360214211032727}
   _name: 
   _speed: 0
+  _guns: []
   _enemyHealthBar: {fileID: 1843872547382054620, guid: 3d78311c2c7a97e46aead3ee71f003da, type: 3}
   _enemyHpSlider: {fileID: 0}
   patrolRadius: 5
@@ -235,7 +237,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 100
-  m_LinearDrag: 0
+  m_LinearDrag: 100
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -243,3 +245,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &-9003367778553056357
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9003360214211032724}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5

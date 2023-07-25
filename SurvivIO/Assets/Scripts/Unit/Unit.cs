@@ -24,6 +24,10 @@ public class Unit : MonoBehaviour
     protected float _patrolWaitTime;
     protected Quaternion targetRotation;
 
+    protected bool isWithinRange;
+    protected Unit unit;
+    public List<Unit> unitList = new List<Unit>();
+
     private void Update()
     {
         if (_enemyHealthBarHolder != null)
@@ -71,16 +75,16 @@ public class Unit : MonoBehaviour
         _enemyHpSlider.value = (float)_health.CurrentHealth / (float)_health.MaxHealth;
     }
 
-    public bool isWithinRange()
-    {
-        float distance = Vector2.Distance(GameManager.Instance._player.transform.position, this.transform.position);
+    //public bool isWithinRange()
+    //{
+    //    float distance = Vector2.Distance(GameManager.Instance._player.transform.position, this.transform.position);
 
-        if (distance < 5)
-        {
-            return true;
-        }
-        return false;
-    }
+    //    if (distance < 5)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     public void Patrol()
     {
@@ -108,4 +112,19 @@ public class Unit : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5);
         transform.position = Vector2.MoveTowards(transform.position, targetDestination, _speed * Time.deltaTime);
     }
+
+    //public void MoveTowardsTarget(Collider2D collision)
+    //{
+    //    unit = collision.GetComponent<Unit>();
+
+    //    if (unit != null)
+    //    {
+    //        if (Vector2.Distance(unit.transform.position, this.transform.position) >= 4f)
+    //        {
+    //            isWithinRange = true;
+    //            transform.position = Vector2.MoveTowards(transform.position, unit.transform.position, _speed * Time.deltaTime);
+    //        }
+    //        transform.right = unit.transform.position - transform.position;
+    //    }
+    //}
 }

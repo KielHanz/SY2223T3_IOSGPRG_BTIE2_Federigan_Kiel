@@ -8,9 +8,9 @@ public class AmmoPickup : MonoBehaviour
     [SerializeField] private int ammoMin;
     [SerializeField] private Weapon ammoType;
     
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Inventory inventory = collision.GetComponent<Inventory>();
+        Inventory inventory = collision.gameObject.GetComponent<Inventory>();
         if (inventory != null)
         {
             inventory.AddAmmo(ammoType, Random.Range(ammoMin, ammoMax));
