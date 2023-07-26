@@ -6,4 +6,5 @@ public class GameManager : Singleton<GameManager>
 {
     public Player _player;
     public Inventory _inventory;
+    public List<Unit> unitList = new List<Unit>();
 }

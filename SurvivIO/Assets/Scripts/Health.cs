@@ -33,14 +33,12 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
-
         _currentHealth = Mathf.Max(_currentHealth, 0);
     }
 
     public void AddHealth(int amount)
     {
         _currentHealth += amount;
-
         _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
     }
 

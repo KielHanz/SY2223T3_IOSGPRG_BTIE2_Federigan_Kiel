@@ -43,5 +43,4 @@ public class GameUI : Singleton<GameUI>
         _currentAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._currentAmmo;
         _maxAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._maxAmmo;
     }
-
 }

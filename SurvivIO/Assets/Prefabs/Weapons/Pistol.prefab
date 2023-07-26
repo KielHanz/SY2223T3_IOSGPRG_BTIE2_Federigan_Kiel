@@ -103,14 +103,18 @@ MonoBehaviour:
   _currentAmmo: 0
   _reloadSpeed: 2
   _numberOfBullets: 1
-  _fireRate: 2.16
+  _fireRate: 1.2
   _spreadDegree: 1.2
   maxClip: 8
-  nozzle: {fileID: 1623704268541518873}
   bullet: {fileID: 4455448556825982186, guid: 94d41e3fa144c8945b0c4757526f9ccd, type: 3}
+  nozzle: {fileID: 1623704268541518873}
   _logo: {fileID: 21300000, guid: 5c8b1bc95de40b24aabacfca9d37faad, type: 3}
   _weaponType: 0
   _weaponSlotType: 1
+  _isInfiniteAmmo: 1
+  _isReloading: 0
+  _isReloaded: 0
+  gunObj: {fileID: 0}
 --- !u!1 &7976198696657931859
 GameObject:
   m_ObjectHideFlags: 0

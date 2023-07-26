@@ -22,18 +22,18 @@ public class BossEnemy : Unit
         if (unit != null)
         {
             isWithinRange = true;
-            unitList.Add(unit);
+            targetList.Add(unit);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         unit = other.GetComponent<Unit>();
-        unitList.Remove(unit);
+        targetList.Remove(unit);
     }
 
     private void OnDestroy()
     {
-        unitList.Remove(unit);
+        targetList.Remove(unit);
     }
 }

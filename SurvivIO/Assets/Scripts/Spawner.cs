@@ -4,28 +4,40 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [SerializeField] private bool lootOnly;
+    [SerializeField] private int numberOfLoot;
+    [SerializeField] private int numberOfEnemies;
+
+    [SerializeField] private Vector3 size;
+
     [SerializeField] private List<GameObject> _enemyPrefab;
     [SerializeField] private List<GameObject> _ammoPrefab;
     [SerializeField] private List<GameObject> _gunPrefab;
+
     [SerializeField] private GameObject _lootParent;
 
     public List<Unit> _enemies;
     
     private void Start()
     {
-        SpawnEnemies(5, _enemyPrefab[0], "Brian melee", 100, 5);
-        SpawnEnemies(20, _enemyPrefab[1], "Brian Ranged", 75, 7);
-        SpawnEnemies(1, _enemyPrefab[2], "Brian Boss", 1000, 3);
-
-        SpawnLootable(10, _gunPrefab);
-        SpawnLootable(100, _ammoPrefab);
+        SpawnLootable(numberOfLoot, _gunPrefab, _ammoPrefab);
+        if (!lootOnly)
+        {
+            SpawnEnemies(numberOfEnemies, _enemyPrefab[0], "Brian Enemy", 100, 7);
+            SpawnEnemies(1, _enemyPrefab[1], "Brian Boss", 1000, 3);
+        }
     }
 
     private void SpawnEnemies(int count, GameObject prefab, string name, int maxHealth, float speed)
     {
+        if (lootOnly)
+        {
+            return;
+        }
+
         for (int i = 0; i < count; i++)
         {
-            Vector3 randPos = RandomSpawn(80, 40);
+            Vector3 randPos = RandomSpawn();
 
             GameObject enemyGO = Instantiate(prefab, randPos, Quaternion.identity);
             enemyGO.transform.parent = transform;
@@ -37,23 +49,32 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void SpawnLootable(int count, List<GameObject> gameObject)
+    private void SpawnLootable(int count, List<GameObject> gunLootPrefab, List<GameObject> ammoLootPrefab)
     {
         for (int i = 0; i < count; i++)
         {
-            Vector3 randPos = RandomSpawn(80, 40);
+            float randomValue = Random.Range(0f, 100f);
+            Vector3 randPos = RandomSpawn();
 
-            GameObject lootPref = Instantiate(gameObject[Random.Range(0, gameObject.Count)], randPos, Quaternion.identity);
-            lootPref.transform.parent = _lootParent.transform;
+            if (randomValue <= 30f)
+            {
+                GameObject gunlootPref = Instantiate(gunLootPrefab[Random.Range(0, gunLootPrefab.Count)], randPos, Quaternion.identity);
+                gunlootPref.transform.parent = _lootParent.transform;
+            }
+            else
+            {
+                GameObject ammolootPref = Instantiate(ammoLootPrefab[Random.Range(0, ammoLootPrefab.Count)], randPos, Quaternion.identity);
+                ammolootPref.transform.parent = _lootParent.transform;
+            }
         }
     }
 
-    private Vector3 RandomSpawn(float _randomX, float _randomY)
+    private Vector3 RandomSpawn()
     {
-        float randomX = Random.Range(-_randomX, _randomX);
-        float randomY = Random.Range(-_randomY, _randomY);
+        float randomX = Random.Range(-size.x / 2, size.x / 2);
+        float randomY = Random.Range(-size.y / 2, size.y / 2);
 
-        Vector3 randomPosition = new Vector3(randomX, randomY, 0);
+        Vector3 randomPosition = this.gameObject.transform.position + new Vector3(randomX, randomY, 0);
 
         return randomPosition;
     }

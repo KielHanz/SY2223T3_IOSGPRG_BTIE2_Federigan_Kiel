@@ -9,6 +9,7 @@ public class Player : Unit
     [SerializeField] private Joystick _aimJoystick;
     public ButtonHold _button;
     private Rigidbody2D _rb2D;
+    
 
     private void Start()
     {
@@ -23,20 +24,34 @@ public class Player : Unit
         if (_button.buttonHeld && !GameManager.Instance._inventory._isSwitched)
         {
             Shoot();
+            GameUI.Instance._currentAmmoUI.text = "" + _currentGun._currentAmmo;
+        }
+
+        if (!_currentGun._isReloading && _currentGun._isReloaded)
+        {
+            GameManager.Instance._inventory.ammos[(int)_currentGun._weaponType]._gunAmmoCarry = _currentGun._maxAmmo;
+            GameUI.Instance._gunAmmoCarryUIs[(int)_currentGun._weaponType].text = GameManager.Instance._inventory.ammos[(int)_currentGun._weaponType]._gunAmmoCarry + "";
+            GameUI.Instance._currentAmmoUI.text = "" + _currentGun._currentAmmo;
+            GameUI.Instance._maxAmmoUI.text = "" + _currentGun._maxAmmo;
+            _currentGun._isReloaded = false;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) // temporary
+    public override void Shoot()
     {
-        //Health health = this.gameObject.GetComponent<Health>();
+        base.Shoot();
+        Debug.Log($"{_name} is Shooting");
+    }
 
-        //if (health != null)
-        //{
-        //    health.TakeDamage(5);
+    public override void Reload()
+    {
+        base.Reload();
+    }
 
-        //    GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
-        //    Debug.Log($"{_name} dealt damage to {collision.gameObject.name}");
-        //}
+    public void SetCurrentGun(Gun gun)
+    {
+        _currentGun = gun;
+
     }
 
     private void Movement()
@@ -52,24 +67,5 @@ public class Player : Unit
         {
             transform.rotation = Quaternion.LookRotation(Vector3.forward, moveVector);
         }
-    }
-
-    public override void Shoot()
-    {
-
-        base.Shoot();
-        Debug.Log($"{_name} is Shooting");
-        
-    }
-
-    public override void Reload()
-    {
-        base.Reload();
-    }
-
-    public void SetCurrentGun(Gun gun)
-    {
-        _currentGun = gun;
-
     }
 }

@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Health))]
 public class Unit : MonoBehaviour
 {
-
     public Gun _currentGun;
 
-    [SerializeField] private Health _health;
+    [SerializeField] protected Health _health;
 
     [SerializeField] protected string _name;
     [SerializeField] protected float _speed;
@@ -22,11 +22,12 @@ public class Unit : MonoBehaviour
 
     protected Vector2 targetDestination;
     protected float _patrolWaitTime;
+    protected float _switchDirectionTime;
     protected Quaternion targetRotation;
 
     protected Unit unit;
     protected bool isWithinRange;
-    public List<Unit> unitList = new List<Unit>();
+    public List<Unit> targetList = new List<Unit>();
 
     private void Update()
     {
@@ -46,6 +47,7 @@ public class Unit : MonoBehaviour
         _health.Initialize(maxHealth);
 
         _speed = speed;
+        GameManager.Instance.unitList.Add(this);
 
         Debug.Log($"{name} has been initialized");
     }
@@ -61,22 +63,29 @@ public class Unit : MonoBehaviour
         _currentGun.Reload();
     }
 
-    protected void InsantiateEnemyHealthBar()
+    public void ManageEnemyHealth()
     {
-        _enemyHealthBarHolder = Instantiate(_enemyHealthBar, transform.position + new Vector3(0, 1, 0), Quaternion.identity, transform);
-        _enemyHealthBarHolder.SetActive(false);
-        _enemyHpSlider = _enemyHealthBarHolder.transform.GetChild(0).GetComponentInChildren<Slider>();
-        Debug.Log(_enemyHpSlider);
+        if (_enemyHealthBar != null)
+        {
+            _enemyHealthBarHolder.SetActive(true);
+            _enemyHpSlider.value = (float)_health.CurrentHealth / (float)_health.MaxHealth;
+        }
     }
 
-    public void ManageHealth()
+    protected void Patrol()
     {
-        _enemyHealthBarHolder.SetActive(true);
-        _enemyHpSlider.value = (float)_health.CurrentHealth / (float)_health.MaxHealth;
-    }
+        if (_switchDirectionTime > 0)
+        {
+            _switchDirectionTime -= Time.deltaTime;
+        }
 
-    public void Patrol()
-    {
+        if (_switchDirectionTime <= 0)
+        {
+            Vector2 randomPoint = Random.insideUnitCircle * patrolRadius;
+            targetDestination = (Vector2)transform.position + randomPoint;
+            _switchDirectionTime = 10;
+        }
+
         if (_patrolWaitTime > 0)
         {
             _patrolWaitTime -= Time.deltaTime;
@@ -90,6 +99,7 @@ public class Unit : MonoBehaviour
                 targetDestination = (Vector2)transform.position + randomPoint;
 
                 _patrolWaitTime = 3;
+                _switchDirectionTime = 10;
 
                 Vector2 direction = ((Vector2)transform.position - targetDestination).normalized;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -102,25 +112,36 @@ public class Unit : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, targetDestination, _speed * Time.deltaTime);
     }
 
-    public void MoveTowardsTarget(float attackRange)
+    protected void MoveTowardsTarget(float attackRange)
     {
         if (!isWithinRange)
         {
             Patrol();
         }
-        else if (unitList != null && isWithinRange)
+        else if (targetList != null && isWithinRange)
         {
-            if (unitList.Count <= 0)
+            if (targetList.Count <= 0)
             {
                 isWithinRange = false;
                 return;
             }
 
-            if (Vector2.Distance(unitList[0].transform.position, this.transform.position) >= attackRange)
+            if (Vector2.Distance(targetList[0].transform.position, this.transform.position) >= attackRange)
             {
-                transform.position = Vector2.MoveTowards(transform.position, unitList[0].transform.position, _speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, targetList[0].transform.position, _speed * Time.deltaTime);
             }
-            transform.right = unitList[0].transform.position - transform.position;
+            else
+            {
+                Shoot();
+            }
+            transform.right = targetList[0].transform.position - transform.position;
         }
+    }
+
+    protected void InsantiateEnemyHealthBar()
+    {
+        _enemyHealthBarHolder = Instantiate(_enemyHealthBar, transform.position + new Vector3(0, 1, 0), Quaternion.identity, transform);
+        _enemyHealthBarHolder.SetActive(false);
+        _enemyHpSlider = _enemyHealthBarHolder.transform.GetChild(0).GetComponentInChildren<Slider>();
     }
 }

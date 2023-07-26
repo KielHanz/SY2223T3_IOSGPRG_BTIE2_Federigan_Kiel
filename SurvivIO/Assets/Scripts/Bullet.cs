@@ -20,18 +20,23 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Health health = collision.gameObject.GetComponent<Health>();
-        Bullet bullet = collision.gameObject.GetComponent<Bullet>();
         Unit enemy = collision.gameObject.GetComponent<Unit>();
+        Player player = collision.gameObject.GetComponent<Player>();
+        Gun gunParent = transform.parent.gameObject.GetComponent<Gun>();
+
         if (health != null)
         {
-            health.TakeDamage(5);
-            enemy.ManageHealth();
+            health.TakeDamage(gunParent._damage);
 
-            Destroy(gameObject);
+            if (player == null)
+            {
+                enemy.ManageEnemyHealth();
+            }
+            else
+            {
+                GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
+            }
         }
-        else if (bullet == null) 
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

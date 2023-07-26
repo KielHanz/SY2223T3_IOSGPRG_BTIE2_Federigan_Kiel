@@ -10,39 +10,46 @@ public class Gun : MonoBehaviour
     public int _damage;
     public int _currentAmmo;
 
+    [HideInInspector] public GameObject gunObj;
+
     [SerializeField] private float _reloadSpeed;
     [SerializeField] private int _numberOfBullets;
     [SerializeField] protected float _fireRate;
     [SerializeField] protected float _spreadDegree;
     [SerializeField] protected int maxClip;
 
-    public Transform nozzle;
     [SerializeField] protected GameObject bullet;
+    public Transform nozzle;
     public Sprite _logo;
 
     public Weapon _weaponType;
     public WeaponSlot _weaponSlotType;
+    public bool _isInfiniteAmmo;
+    public bool _isReloading;
+    public bool _isReloaded;
 
     private bool isClipEmpty;
     private float _reloadTimer;
     protected float _fireTimer;
-    protected Gun gun;
-    protected GameObject gunObj;
 
     private void Awake()
     {
         _reloadTimer = _reloadSpeed;
     }
 
+    private void Start()
+    {
+        gunObj = transform.parent.gameObject;
+    }
+
     private void Update()
     {
-
         if (_currentAmmo <= 0)
         {
             isClipEmpty = true;
         }
 
-        if (_currentAmmo <= 0 && _maxAmmo > 0)
+        if (_currentAmmo <= 0 && _maxAmmo > 0 || _currentAmmo <= 0 && _isInfiniteAmmo)
         {
             Reload();
         }
@@ -67,19 +74,13 @@ public class Gun : MonoBehaviour
 
         if (_fireTimer <= 0 || _fireTimer == _fireRate)
         {
-            gunObj = GameManager.Instance._player._currentGun.gameObject;
-
-            if (gunObj != null)
-            {
-                for (int i = 0; i < _numberOfBullets; i++)
+            for (int i = 0; i < _numberOfBullets; i++)
                 {
                     float halfSpread = _spreadDegree / 2.0f;
                     float randomOffset = Random.Range(-halfSpread, halfSpread);
-                    Instantiate(bullet, gunObj.GetComponent<Gun>().nozzle.transform.position, gunObj.transform.rotation * Quaternion.Euler(0, 0, randomOffset));
-                }
-                _currentAmmo--;
-                GameUI.Instance._currentAmmoUI.text = "" + _currentAmmo;
+                Instantiate(bullet, gunObj.GetComponent<Unit>()._currentGun.nozzle.gameObject.transform.position, gunObj.GetComponent<Unit>()._currentGun.nozzle.gameObject.transform.rotation * Quaternion.Euler(0, 0, randomOffset).normalized, transform);
             }
+            _currentAmmo--;
             _fireTimer = _fireRate;
         }
     }
@@ -89,10 +90,17 @@ public class Gun : MonoBehaviour
         if (_reloadTimer > 0)
         {
             _reloadTimer -= Time.deltaTime;
+            _isReloading = true;
         }
 
         if (_reloadTimer <= 0)
         {
+            if (_isInfiniteAmmo)
+            {
+                _currentAmmo = maxClip;
+            }
+            _isReloading = false;
+
             _maxAmmo -= maxClip - _currentAmmo;
 
             if (_maxAmmo < _currentAmmo && _currentAmmo == 0)
@@ -104,18 +112,16 @@ public class Gun : MonoBehaviour
                 _currentAmmo = maxClip;
             }
 
+            
             if (_maxAmmo < 0)
             {
                 _maxAmmo = 0;
             }
 
             _reloadTimer = _reloadSpeed;
+
+            _isReloaded = true;
             isClipEmpty = false;
         }
-
-        GameManager.Instance._inventory.ammos[(int)_weaponType]._gunAmmoCarry = _maxAmmo;
-        GameUI.Instance._gunAmmoCarryUIs[(int)_weaponType].text = GameManager.Instance._inventory.ammos[(int)_weaponType]._gunAmmoCarry + "";
-        GameUI.Instance._currentAmmoUI.text = "" + _currentAmmo;
-        GameUI.Instance._maxAmmoUI.text = "" + _maxAmmo;
     }
 }
