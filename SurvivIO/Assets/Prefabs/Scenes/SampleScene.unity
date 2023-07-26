@@ -499,6 +499,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotgunLoot (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3067932703591978730, guid: e9fefff713b912345bd2c3c51341162d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3067932703591978734, guid: e9fefff713b912345bd2c3c51341162d, type: 3}
       propertyPath: gunObj
       value: 
@@ -875,6 +879,10 @@ PrefabInstance:
     - target: {fileID: 3067932703591978730, guid: e9fefff713b912345bd2c3c51341162d, type: 3}
       propertyPath: m_Name
       value: ShotgunLoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3067932703591978730, guid: e9fefff713b912345bd2c3c51341162d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3067932703591978734, guid: e9fefff713b912345bd2c3c51341162d, type: 3}
       propertyPath: gunObj
@@ -1258,6 +1266,10 @@ PrefabInstance:
     - target: {fileID: 2608389107944750665, guid: 2a4bae012cf9d874bb2914eaabbdb8eb, type: 3}
       propertyPath: m_Name
       value: PistolLoot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608389107944750665, guid: 2a4bae012cf9d874bb2914eaabbdb8eb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2608389107944750677, guid: 2a4bae012cf9d874bb2914eaabbdb8eb, type: 3}
       propertyPath: gunObj
@@ -3249,6 +3261,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RifleLoot
       objectReference: {fileID: 0}
+    - target: {fileID: 6795628151276822591, guid: c524b774c984da94eae18e761dbabea3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6795628151276822594, guid: c524b774c984da94eae18e761dbabea3, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -5072,6 +5088,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -11.51
       objectReference: {fileID: 0}
+    - target: {fileID: 8823874599592136923, guid: cf323066ccfba434cb4d0671b3df8754, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf323066ccfba434cb4d0671b3df8754, type: 3}
 --- !u!1 &1159522906
@@ -5829,6 +5849,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2452098122382093591, guid: 48b37c67450f88a4c8a08d4cf23a5aab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2452098122382093598, guid: 48b37c67450f88a4c8a08d4cf23a5aab, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -6037,6 +6061,10 @@ PrefabInstance:
     - target: {fileID: 6795628151276822591, guid: c524b774c984da94eae18e761dbabea3, type: 3}
       propertyPath: m_Name
       value: RifleLoot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6795628151276822591, guid: c524b774c984da94eae18e761dbabea3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6795628151276822594, guid: c524b774c984da94eae18e761dbabea3, type: 3}
       propertyPath: m_RootOrder
@@ -7000,6 +7028,10 @@ PrefabInstance:
     - target: {fileID: 7642966172884017989, guid: 8cb7d34c755ae2d4c8852e1a626e1936, type: 3}
       propertyPath: m_Name
       value: 12gauge (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8555906547198585320, guid: 8cb7d34c755ae2d4c8852e1a626e1936, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8555906547198585331, guid: 8cb7d34c755ae2d4c8852e1a626e1936, type: 3}
       propertyPath: m_RootOrder
@@ -9743,6 +9775,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PistolLoot
       objectReference: {fileID: 0}
+    - target: {fileID: 2608389107944750665, guid: 2a4bae012cf9d874bb2914eaabbdb8eb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2608389107944750677, guid: 2a4bae012cf9d874bb2914eaabbdb8eb, type: 3}
       propertyPath: gunObj
       value: 
@@ -10170,6 +10206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 556mm
       objectReference: {fileID: 0}
+    - target: {fileID: 2452098122382093591, guid: 48b37c67450f88a4c8a08d4cf23a5aab, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2452098122382093598, guid: 48b37c67450f88a4c8a08d4cf23a5aab, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -10407,6 +10447,10 @@ PrefabInstance:
     - target: {fileID: 4723907002659383748, guid: 54ad0eb90a4db6f47b4c5b64145a9901, type: 3}
       propertyPath: m_Name
       value: RangedEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723907002659383748, guid: 54ad0eb90a4db6f47b4c5b64145a9901, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4723907002659383774, guid: 54ad0eb90a4db6f47b4c5b64145a9901, type: 3}
       propertyPath: m_RootOrder
@@ -10791,6 +10835,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 12gauge
       objectReference: {fileID: 0}
+    - target: {fileID: 8555906547198585320, guid: 8cb7d34c755ae2d4c8852e1a626e1936, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8555906547198585331, guid: 8cb7d34c755ae2d4c8852e1a626e1936, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -10892,6 +10940,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 9mm
       objectReference: {fileID: 0}
+    - target: {fileID: 8823874599592136923, guid: cf323066ccfba434cb4d0671b3df8754, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf323066ccfba434cb4d0671b3df8754, type: 3}
 --- !u!1001 &9003360213394590388
@@ -10948,6 +11000,10 @@ PrefabInstance:
     - target: {fileID: 9003360214211032724, guid: c79e966ca06e38245883aac78296ae10, type: 3}
       propertyPath: m_Name
       value: BossEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 9003360214211032724, guid: c79e966ca06e38245883aac78296ae10, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c79e966ca06e38245883aac78296ae10, type: 3}

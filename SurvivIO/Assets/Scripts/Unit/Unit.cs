@@ -47,15 +47,17 @@ public class Unit : MonoBehaviour
         _health.Initialize(maxHealth);
 
         _speed = speed;
-        GameManager.Instance.unitList.Add(this);
 
         Debug.Log($"{name} has been initialized");
     }
 
     public virtual void Shoot()
     {
-        Debug.Log($"{_name} is shooting");
-        _currentGun.Shoot();
+        if (_currentGun != null)
+        {
+            Debug.Log($"{_name} is shooting");
+            _currentGun.Shoot();
+        }
     }
 
     public virtual void Reload()

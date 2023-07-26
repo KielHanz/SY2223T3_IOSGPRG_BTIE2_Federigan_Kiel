@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
         SpawnLootable(numberOfLoot, _gunPrefab, _ammoPrefab);
         if (!lootOnly)
         {
-            SpawnEnemies(numberOfEnemies, _enemyPrefab[0], "Brian Enemy", 100, 7);
+            SpawnEnemies(numberOfEnemies, _enemyPrefab[0], "Brian Enemy", 100, 2.5f);
             SpawnEnemies(1, _enemyPrefab[1], "Brian Boss", 1000, 3);
         }
     }

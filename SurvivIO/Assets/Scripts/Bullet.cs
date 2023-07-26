@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float bulletSpeed = 10f;
+    public float bulletSpeed = 5f;
     private Rigidbody2D bulletRigidbody;
+    public int bulletDamage;
 
     private void Start()
     {
@@ -22,11 +23,10 @@ public class Bullet : MonoBehaviour
         Health health = collision.gameObject.GetComponent<Health>();
         Unit enemy = collision.gameObject.GetComponent<Unit>();
         Player player = collision.gameObject.GetComponent<Player>();
-        Gun gunParent = transform.parent.gameObject.GetComponent<Gun>();
 
         if (health != null)
         {
-            health.TakeDamage(gunParent._damage);
+            health.TakeDamage(bulletDamage);
 
             if (player == null)
             {

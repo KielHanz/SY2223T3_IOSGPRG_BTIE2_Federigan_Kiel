@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     [SerializeField] protected int maxClip;
 
     [SerializeField] protected GameObject bullet;
+    private GameObject bulletPrefab;
     public Transform nozzle;
     public Sprite _logo;
 
@@ -32,13 +33,16 @@ public class Gun : MonoBehaviour
     private float _reloadTimer;
     protected float _fireTimer;
 
-    private void Awake()
-    {
-        _reloadTimer = _reloadSpeed;
-    }
-
     private void Start()
     {
+        if (_isInfiniteAmmo)
+        {
+            _reloadTimer = _reloadSpeed * 2;
+        }
+        else
+        {
+            _reloadTimer = _reloadSpeed;
+        }
         gunObj = transform.parent.gameObject;
     }
 
@@ -75,10 +79,11 @@ public class Gun : MonoBehaviour
         if (_fireTimer <= 0 || _fireTimer == _fireRate)
         {
             for (int i = 0; i < _numberOfBullets; i++)
-                {
-                    float halfSpread = _spreadDegree / 2.0f;
-                    float randomOffset = Random.Range(-halfSpread, halfSpread);
-                Instantiate(bullet, gunObj.GetComponent<Unit>()._currentGun.nozzle.gameObject.transform.position, gunObj.GetComponent<Unit>()._currentGun.nozzle.gameObject.transform.rotation * Quaternion.Euler(0, 0, randomOffset).normalized, transform);
+            {
+                float halfSpread = _spreadDegree / 2.0f;
+                float randomOffset = Random.Range(-halfSpread, halfSpread);
+                Instantiate(bullet, gunObj.GetComponent<Unit>()._currentGun.nozzle.gameObject.transform.position, gunObj.GetComponent<Unit>()._currentGun.nozzle.gameObject.transform.rotation * Quaternion.Euler(0, 0, randomOffset).normalized);
+                bullet.GetComponent<Bullet>().bulletDamage = _damage;
             }
             _currentAmmo--;
             _fireTimer = _fireRate;
@@ -118,7 +123,14 @@ public class Gun : MonoBehaviour
                 _maxAmmo = 0;
             }
 
-            _reloadTimer = _reloadSpeed;
+            if (_isInfiniteAmmo)
+            {
+                _reloadTimer = _reloadSpeed * 2;
+            }
+            else
+            {
+                _reloadTimer = _reloadSpeed;
+            }
 
             _isReloaded = true;
             isClipEmpty = false;

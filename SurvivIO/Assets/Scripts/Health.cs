@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,12 +18,16 @@ public class Health : MonoBehaviour
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _currentHealth;
 
-    public void Update()
+    public Action _onDeath;
+
+    private void OnEnable()
     {
-        if (_currentHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
+        _onDeath += OnDeath;
+    }
+
+    private void OnDisable()
+    {
+        _onDeath -= OnDeath;
     }
 
     public void Initialize(int maxHealth)
@@ -34,6 +39,12 @@ public class Health : MonoBehaviour
     {
         _currentHealth -= damage;
         _currentHealth = Mathf.Max(_currentHealth, 0);
+
+        if (_currentHealth <= 0)
+        {
+            _onDeath?.Invoke();
+            Destroy(gameObject);
+        }
     }
 
     public void AddHealth(int amount)
@@ -42,4 +53,8 @@ public class Health : MonoBehaviour
         _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
     }
 
+    private void OnDeath()
+    {
+        Debug.Log($"{gameObject.name} is Dead!");
+    }
 }
