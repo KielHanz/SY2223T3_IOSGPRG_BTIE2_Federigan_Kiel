@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
             }
             else
             {
-                GameUI.Instance._hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
+                GameUI.Instance.UpdatePlayerHealth();
             }
         }
         Destroy(gameObject);

@@ -13,6 +13,7 @@ public class Health : MonoBehaviour
     public int CurrentHealth
     {
         get => _currentHealth;
+        set => _currentHealth = value;
     }
 
     [SerializeField] private int _maxHealth;
@@ -35,6 +36,7 @@ public class Health : MonoBehaviour
         _maxHealth = maxHealth;
         _currentHealth = maxHealth;
     }
+
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
@@ -47,10 +49,14 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void AddHealth(int amount)
+    public void Heal()
     {
-        _currentHealth += amount;
-        _currentHealth = Mathf.Min(_currentHealth, _maxHealth);
+        Inventory inventory = GameManager.Instance._inventory;
+
+        if (_currentHealth < _maxHealth && inventory._healthKits > 0)
+        {
+            inventory._isHealing = true;
+        }
     }
 
     private void OnDeath()

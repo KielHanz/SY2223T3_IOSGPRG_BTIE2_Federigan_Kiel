@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class Spawner : Singleton<Spawner>
 {
     [SerializeField] private bool lootOnly;
     [SerializeField] private int numberOfLoot;
@@ -11,20 +11,21 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Vector3 size;
 
     [SerializeField] private List<GameObject> _enemyPrefab;
-    [SerializeField] private List<GameObject> _ammoPrefab;
-    [SerializeField] private List<GameObject> _gunPrefab;
+    public List<GameObject> _ammoPrefab;
+    public List<GameObject> _gunPrefab;
+    public GameObject _healthKitPrefab;
 
     [SerializeField] private GameObject _lootParent;
 
     public List<Unit> _enemies;
+    public int enemyCount;
     
-    private void Start()
+    public void Start()
     {
-        SpawnLootable(numberOfLoot, _gunPrefab, _ammoPrefab);
+        SpawnLootable(numberOfLoot, _gunPrefab, _ammoPrefab, _healthKitPrefab);
         if (!lootOnly)
         {
             SpawnEnemies(numberOfEnemies, _enemyPrefab[0], "Brian Enemy", 100, 2.5f);
-            SpawnEnemies(1, _enemyPrefab[1], "Brian Boss", 1000, 3);
         }
     }
 
@@ -46,20 +47,26 @@ public class Spawner : MonoBehaviour
             _enemies.Add(unit);
 
             unit.Initialize(name, maxHealth, speed);
+            GameUI.Instance.UpdateEnemyCount();
         }
     }
 
-    private void SpawnLootable(int count, List<GameObject> gunLootPrefab, List<GameObject> ammoLootPrefab)
+    private void SpawnLootable(int count, List<GameObject> gunLootPrefab, List<GameObject> ammoLootPrefab, GameObject healthKit)
     {
         for (int i = 0; i < count; i++)
         {
-            float randomValue = Random.Range(0f, 100f);
+            float randomValue = Random.Range(1f, 100f);
             Vector3 randPos = RandomSpawn();
 
-            if (randomValue <= 30f)
+            if (randomValue <= 25f)
             {
                 GameObject gunlootPref = Instantiate(gunLootPrefab[Random.Range(0, gunLootPrefab.Count)], randPos, Quaternion.identity);
                 gunlootPref.transform.parent = _lootParent.transform;
+            }
+            else if (randomValue > 90f)
+            {
+                GameObject healthKitPref = Instantiate(healthKit, randPos, Quaternion.identity);
+               healthKitPref.transform.parent = _lootParent.transform;
             }
             else
             {

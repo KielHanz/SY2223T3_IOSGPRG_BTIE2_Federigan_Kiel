@@ -14,6 +14,11 @@ public class GameUI : Singleton<GameUI>
     public TextMeshProUGUI _currentAmmoUI;
     public TextMeshProUGUI _maxAmmoUI;
 
+    public TextMeshProUGUI _healthKitsUI;
+    public TextMeshProUGUI _healTime;
+
+    public TextMeshProUGUI _enemiesLeft;
+
     public Image _primaryBtn;
     public Image _secondaryBtn;
 
@@ -21,6 +26,16 @@ public class GameUI : Singleton<GameUI>
     public Image _secondaryBtnLogo;
     
     public Slider _hpSlider;
+    public Slider _healTimeBarSlider;
+
+    public Spawner spawner;
+
+    private void Start()
+    {
+        _hpSlider.enabled = false;
+        _healTimeBarSlider.enabled = false;
+        _healTimeBarSlider.gameObject.SetActive(false);
+    }
 
     public void WeaponSlotColorChange(Color primarySlotColor, Color secondarySlotColor)
     {
@@ -40,7 +55,48 @@ public class GameUI : Singleton<GameUI>
 
     public void UpdateAmmoUI()
     {
-        _currentAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._currentAmmo;
-        _maxAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._maxAmmo;
+        if (GameManager.Instance._player != null)
+        {
+            _currentAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._currentAmmo;
+            _maxAmmoUI.text = "" + GameManager.Instance._player._currentGun.GetComponent<Gun>()._maxAmmo;
+        }
+    }
+
+    public void UpdatePlayerHealth()
+    {
+        if (GameManager.Instance._player == null)
+        {
+            _hpSlider.value = 0;
+            return;
+        }
+
+        Health health = GameManager.Instance._player.gameObject.GetComponent<Health>();
+        _hpSlider.value = (float)health.CurrentHealth / (float)health.MaxHealth;
+        
+    }
+
+    public void UpdateHealthKitAmount()
+    {
+        _healthKitsUI.text = "" + GameManager.Instance._inventory._healthKits;
+    }
+
+    public void UpdateHealTimeBar()
+    {
+        Inventory inventory = GameManager.Instance._inventory;
+        if (inventory._isHealing)
+        {
+            _healTimeBarSlider.gameObject.SetActive(true);
+            _healTimeBarSlider.value = inventory.HealTimer / inventory.HealTime;
+            _healTime.text = "" + inventory.HealTimer.ToString("F2");
+        }
+        else
+        {
+            _healTimeBarSlider.gameObject.SetActive(false);
+        }
+    }
+
+    public void UpdateEnemyCount()
+    {
+        _enemiesLeft.text = "" + spawner._enemies.Count;
     }
 }

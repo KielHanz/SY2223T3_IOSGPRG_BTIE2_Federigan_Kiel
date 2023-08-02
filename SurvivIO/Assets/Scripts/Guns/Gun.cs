@@ -58,7 +58,7 @@ public class Gun : MonoBehaviour
             Reload();
         }
 
-        if (!GameManager.Instance._player._button.buttonHeld && _fireRate <= 0)
+        if (GameManager.Instance._player != null && !GameManager.Instance._player._button.buttonHeld && _fireRate <= 0)
         {
             _fireTimer = 0;
         }

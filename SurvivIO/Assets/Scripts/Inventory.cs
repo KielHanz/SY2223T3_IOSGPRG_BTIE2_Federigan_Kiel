@@ -18,8 +18,9 @@ public struct Ammos
 public class Inventory : MonoBehaviour
 {
     public Ammos[] ammos;
-
-    private int _healthKits;
+    public bool _isSwitched;
+    public int _healthKits;
+    public int _maxHealthKitCarry;
 
     private Player _player;
 
@@ -27,21 +28,44 @@ public class Inventory : MonoBehaviour
     private Gun _secondaryWeapon;
     private int _prevGunAmmo;
 
-    public bool _isSwitched;
-
     private float _switchTime;
     private float _switchTimer;
+    private float _healTime;
+    private float _healTimer;
+    public bool _isHealing;
+
+    public float HealTime
+    {
+        get => _healTime;
+    }
+
+    public float HealTimer
+    {
+        get => _healTimer;
+    }
 
     private void Start()
     {
         _player = GameManager.Instance._player;
-        GameUI.Instance.WeaponSlotColorChange(new Color(0, 0, 0, 0.5f), new Color(0, 0, 0, 0.5f));
         _switchTime = 1;
         _switchTimer = _switchTime;
+        _healTime = 3;
+        _healTimer = _healTime;
     }
 
     private void Update()
     {
+        if (_isHealing && !_player.isShooting)
+        {
+            StartHealTimer();
+            GameUI.Instance.UpdateHealTimeBar();
+        }
+        else if (_player.isShooting)
+        {
+            _isHealing = false;
+            _healTimer = _healTime;
+        }
+
         if (_switchTimer > 0 && _isSwitched)
         {
             _switchTimer -= Time.deltaTime;
@@ -131,11 +155,41 @@ public class Inventory : MonoBehaviour
         UpdateAmmo();
     }
 
+    public void PickupHealthKit()
+    {
+        _healthKits++;
+        _healthKits = Mathf.Min(_healthKits, _maxHealthKitCarry);
+        GameUI.Instance.UpdateHealthKitAmount();
+
+    }
+
+    public void StartHealTimer()
+    {
+        if (_healTimer > 0)
+        {
+            _healTimer -= Time.deltaTime;
+            Debug.Log(_healTimer);
+        }
+
+        if (_healTimer <= 0)
+        {
+            Health health = _player.GetComponent<Health>();
+            health.CurrentHealth += 30;
+            health.CurrentHealth = Mathf.Min(health.CurrentHealth, health.MaxHealth);
+            _healthKits--;
+            GameUI.Instance.UpdatePlayerHealth();
+            GameUI.Instance.UpdateHealthKitAmount();
+
+            _healTimer = _healTime;
+            _isHealing = false;
+        }
+    }
+
     private void UpdateAmmo()
     {
         for (int i = 0; i < ammos.Length; i++)
         {
-            if ((int)_player._currentGun._weaponType == i)
+            if (_player._currentGun != null && (int)_player._currentGun._weaponType == i)
             {
                 _player._currentGun._maxAmmo = ammos[i]._gunAmmoCarry;
                 GameUI.Instance.UpdateAmmoUI();
@@ -145,7 +199,7 @@ public class Inventory : MonoBehaviour
 
     private void InstantiateWeapon(Gun gun)
     {
-        if (_player._currentGun._weaponType != Weapon.None)
+        if (_player._currentGun != null && _player._currentGun._weaponType != Weapon.None)
         {
             Destroy(_player._currentGun.gameObject);
         }

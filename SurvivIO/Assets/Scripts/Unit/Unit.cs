@@ -69,8 +69,14 @@ public class Unit : MonoBehaviour
     {
         if (_enemyHealthBar != null)
         {
+            _enemyHpSlider.enabled = false;
             _enemyHealthBarHolder.SetActive(true);
             _enemyHpSlider.value = (float)_health.CurrentHealth / (float)_health.MaxHealth;
+            if(_health.CurrentHealth <= 0)
+            {
+                GameUI.Instance.spawner._enemies.Remove(this);
+                GameUI.Instance.UpdateEnemyCount();
+            }
         }
     }
 

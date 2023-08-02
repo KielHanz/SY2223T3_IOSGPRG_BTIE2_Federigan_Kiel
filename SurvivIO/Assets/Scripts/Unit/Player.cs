@@ -9,11 +9,12 @@ public class Player : Unit
     [SerializeField] private Joystick _aimJoystick;
     public ButtonHold _button;
     private Rigidbody2D _rb2D;
-    
+    public bool isShooting;
 
     private void Start()
     {
         base.Initialize("Hunter", 100, 10);
+        GameManager.Instance.InitializePlayer(this);
         _rb2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -21,18 +22,23 @@ public class Player : Unit
     {
         Movement();
         Aim();
-        if (_button.buttonHeld && !GameManager.Instance._inventory._isSwitched)
+        if (_currentGun != null && _button.buttonHeld && !GameManager.Instance._inventory._isSwitched)
         {
             Shoot();
-            GameUI.Instance._currentAmmoUI.text = "" + _currentGun._currentAmmo;
+            GameUI.Instance.UpdateAmmoUI();
+            GameUI.Instance._healTimeBarSlider.gameObject.SetActive(false);
+            isShooting = true;
+        }
+        else if (!_button.buttonHeld)
+        {
+            isShooting = false;
         }
 
-        if (!_currentGun._isReloading && _currentGun._isReloaded)
+        if (_currentGun != null && !_currentGun._isReloading && _currentGun._isReloaded)
         {
             GameManager.Instance._inventory.ammos[(int)_currentGun._weaponType]._gunAmmoCarry = _currentGun._maxAmmo;
             GameUI.Instance._gunAmmoCarryUIs[(int)_currentGun._weaponType].text = GameManager.Instance._inventory.ammos[(int)_currentGun._weaponType]._gunAmmoCarry + "";
-            GameUI.Instance._currentAmmoUI.text = "" + _currentGun._currentAmmo;
-            GameUI.Instance._maxAmmoUI.text = "" + _currentGun._maxAmmo;
+            GameUI.Instance.UpdateAmmoUI();
             _currentGun._isReloaded = false;
         }
     }

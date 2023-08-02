@@ -15,3 +15,11 @@ public enum Weapon
     AutomaticRifle,
     None
 }
+
+public enum MenuType
+{
+    MainMenu,
+    GameOver,
+    Game,
+    Win
+}
