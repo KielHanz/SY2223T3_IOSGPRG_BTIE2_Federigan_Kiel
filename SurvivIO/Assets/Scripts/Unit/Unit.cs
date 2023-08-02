@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Unit : MonoBehaviour
 {
     public Gun _currentGun;
+    public List<Unit> targetList = new List<Unit>();
 
     [SerializeField] protected Health _health;
 
@@ -27,7 +28,6 @@ public class Unit : MonoBehaviour
 
     protected Unit unit;
     protected bool isWithinRange;
-    public List<Unit> targetList = new List<Unit>();
 
     private void Update()
     {

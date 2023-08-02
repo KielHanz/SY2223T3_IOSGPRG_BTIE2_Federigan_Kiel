@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
 {
     public Ammos[] ammos;
     public bool _isSwitched;
+    public bool _isHealing;
     public int _healthKits;
     public int _maxHealthKitCarry;
 
@@ -32,7 +33,6 @@ public class Inventory : MonoBehaviour
     private float _switchTimer;
     private float _healTime;
     private float _healTimer;
-    public bool _isHealing;
 
     public float HealTime
     {

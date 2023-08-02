@@ -9,6 +9,7 @@ public class ButtonHold : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public bool buttonHeld = false;
     private float heldTime;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         heldTime += Time.deltaTime;
@@ -21,5 +22,4 @@ public class ButtonHold : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         heldTime = 0;
         buttonHeld = false;
     }
-
 }

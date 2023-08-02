@@ -19,7 +19,6 @@ public class Gun : MonoBehaviour
     [SerializeField] protected int maxClip;
 
     [SerializeField] protected GameObject bullet;
-    private GameObject bulletPrefab;
     public Transform nozzle;
     public Sprite _logo;
 

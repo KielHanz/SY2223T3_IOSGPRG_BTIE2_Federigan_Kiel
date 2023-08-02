@@ -5,11 +5,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : Unit
 {
+    public ButtonHold _button;
+    public bool isShooting;
+
     [SerializeField] private Joystick _moveJoystick;
     [SerializeField] private Joystick _aimJoystick;
-    public ButtonHold _button;
     private Rigidbody2D _rb2D;
-    public bool isShooting;
 
     private void Start()
     {
